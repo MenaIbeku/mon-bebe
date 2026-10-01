@@ -1,8 +1,6 @@
 /* =========================================
-   SCREEN TRANSITIONS
+   SCREEN ORDER
 ========================================= */
-
-const screens = document.querySelectorAll(".screen");
 
 const screenOrder = [
   "cover",
@@ -16,32 +14,184 @@ const screenOrder = [
   "ending"
 ];
 
+
+/* =========================================
+   SCREEN TRANSITIONS
+========================================= */
+
 function nextScreen(screenId) {
 
-  const currentScreen = document.querySelector(".screen.active");
-  const next = document.getElementById(screenId);
+  showScreen(screenId);
 
-  if (!next) return;
+  history.pushState(
+    {
+      screen: screenId
+    },
+    "",
+    `#${screenId}`
+  );
+}
 
-  // Fade out current screen
-  if (currentScreen) {
-    currentScreen.classList.remove("active");
+
+function showScreen(screenId) {
+
+  const currentScreen =
+    document.querySelector(
+      ".screen.active"
+    );
+
+  const next =
+    document.getElementById(
+      screenId
+    );
+
+
+  if (!next) {
+    return;
   }
 
-  // Small delay makes the transition feel smoother
+
+  if (
+    currentScreen &&
+    currentScreen.id === screenId
+  ) {
+    return;
+  }
+
+
+  /*
+    Mute memory videos whenever
+    we leave the memories screen.
+  */
+
+  if (
+    currentScreen &&
+    currentScreen.id === "memories" &&
+    screenId !== "memories"
+  ) {
+
+    muteAllMemoryVideos();
+
+  }
+
+
+  if (currentScreen) {
+
+    currentScreen.classList.remove(
+      "active"
+    );
+
+  }
+
+
   setTimeout(() => {
 
-    next.classList.add("active");
+    next.classList.add(
+      "active"
+    );
 
-    // Scroll screens should always start at the top
-    if (next.classList.contains("scroll-screen")) {
+
+    /*
+      Reset scroll position.
+    */
+
+    if (
+      next.classList.contains(
+        "scroll-screen"
+      )
+    ) {
+
       next.scrollTop = 0;
+
     }
 
-    updateProgress(screenId);
+
+    updateProgress(
+      screenId
+    );
+
+
+    resetHiddenNoButtons();
+
+
+    /*
+      Start memory videos muted
+      when entering the memories page.
+    */
+
+    if (
+      screenId === "memories"
+    ) {
+
+      startMemoryVideos();
+
+    }
 
   }, 350);
 }
+
+
+/* =========================================
+   BACK NAVIGATION
+========================================= */
+
+function previousScreen() {
+
+  const currentScreen =
+    document.querySelector(
+      ".screen.active"
+    );
+
+
+  if (!currentScreen) {
+    return;
+  }
+
+
+  const currentIndex =
+    screenOrder.indexOf(
+      currentScreen.id
+    );
+
+
+  if (currentIndex <= 0) {
+    return;
+  }
+
+
+  history.back();
+}
+
+
+/* =========================================
+   BROWSER BACK / FORWARD
+========================================= */
+
+window.addEventListener(
+  "popstate",
+  event => {
+
+    if (
+      event.state &&
+      event.state.screen
+    ) {
+
+      showScreen(
+        event.state.screen
+      );
+
+    }
+
+    else {
+
+      showScreen(
+        "cover"
+      );
+
+    }
+
+  }
+);
 
 
 /* =========================================
@@ -50,204 +200,291 @@ function nextScreen(screenId) {
 
 function updateProgress(screenId) {
 
-  const dots = document.querySelectorAll(".progress-dot");
+  const dots =
+    document.querySelectorAll(
+      ".progress-dot"
+    );
 
-  /*
-    We're grouping the screens into roughly
-    five stages of the experience.
-  */
 
   let stage = 0;
 
-  if (screenId === "cover") {
+
+  if (
+    screenId === "cover"
+  ) {
+
     stage = 0;
+
   }
 
   else if (
     screenId === "question1" ||
     screenId === "question2"
   ) {
+
     stage = 1;
+
   }
 
   else if (
     screenId === "question3" ||
     screenId === "contract"
   ) {
+
     stage = 2;
+
   }
 
   else if (
     screenId === "reveal" ||
     screenId === "letter"
   ) {
+
     stage = 3;
+
   }
 
-  else if (
-    screenId === "memories" ||
-    screenId === "ending"
-  ) {
+  else {
+
     stage = 4;
+
   }
 
 
-  dots.forEach((dot, index) => {
+  dots.forEach(
+    (dot, index) => {
 
-    if (index < stage) {
-      dot.textContent = "♡";
-      dot.classList.add("active-dot");
+      if (
+        index <= stage
+      ) {
+
+        dot.textContent =
+          "♡";
+
+        dot.classList.add(
+          "active-dot"
+        );
+
+      }
+
+      else {
+
+        dot.textContent =
+          "○";
+
+        dot.classList.remove(
+          "active-dot"
+        );
+
+      }
+
     }
-
-    else if (index === stage) {
-      dot.textContent = "♡";
-      dot.classList.add("active-dot");
-    }
-
-    else {
-      dot.textContent = "○";
-      dot.classList.remove("active-dot");
-    }
-
-  });
-
+  );
 }
 
 
 /* =========================================
-   RUNAWAY "NO" BUTTONS
+   RUNAWAY NO BUTTONS
 ========================================= */
 
 const runawayButtons =
-  document.querySelectorAll(".runaway");
-
-
-runawayButtons.forEach(button => {
-
-  /*
-    Desktop:
-    Detect when the mouse gets near the button.
-  */
-
-  button.addEventListener(
-    "mouseenter",
-    () => moveNoButton(button)
+  document.querySelectorAll(
+    ".runaway"
   );
 
 
-  /*
-    Mobile:
-    If she tries touching the button,
-    move it before the click can happen.
-  */
+runawayButtons.forEach(
+  button => {
 
-  button.addEventListener(
-    "touchstart",
-    event => {
+    /*
+      Desktop
+    */
 
-      event.preventDefault();
+    button.addEventListener(
+      "mouseenter",
+      () => {
 
-      moveNoButton(button);
+        moveNoButton(
+          button
+        );
 
-    },
-    { passive: false }
-  );
+      }
+    );
 
 
-  /*
-    Just in case she somehow manages
-    to click it.
-  */
+    /*
+      Mobile
+    */
 
-  button.addEventListener(
-    "click",
-    event => {
+    button.addEventListener(
+      "touchstart",
+      event => {
 
-      event.preventDefault();
+        event.preventDefault();
 
-      moveNoButton(button);
+        moveNoButton(
+          button
+        );
 
-    }
-  );
+      },
+      {
+        passive: false
+      }
+    );
 
-});
 
+    /*
+      Just in case she somehow
+      manages to click it.
+    */
+
+    button.addEventListener(
+      "click",
+      event => {
+
+        event.preventDefault();
+
+        moveNoButton(
+          button
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================
+   MOVE NO BUTTON
+========================================= */
 
 function moveNoButton(button) {
 
-  /*
-    Once the button starts running,
-    position it relative to the viewport.
-  */
+  button.style.position =
+    "fixed";
 
-  button.style.position = "fixed";
-
-  button.style.zIndex = "50";
+  button.style.zIndex =
+    "150";
 
 
-  const buttonRect =
+  const rect =
     button.getBoundingClientRect();
 
 
-  /*
-    Keep some space between the button
-    and the edges of the screen.
-  */
-
-  const padding = 20;
+  const padding =
+    25;
 
 
   const maxX =
-    window.innerWidth -
-    buttonRect.width -
-    padding;
+    Math.max(
+      padding,
+      window.innerWidth -
+      rect.width -
+      padding
+    );
 
 
   const maxY =
-    window.innerHeight -
-    buttonRect.height -
-    padding;
-
-
-  const randomX =
     Math.max(
       padding,
-      Math.random() * maxX
+      window.innerHeight -
+      rect.height -
+      padding
     );
 
 
-  const randomY =
+  let randomX =
+    padding +
+    Math.random() *
     Math.max(
-      padding,
-      Math.random() * maxY
+      0,
+      maxX - padding
     );
+
+
+  let randomY =
+    padding +
+    Math.random() *
+    Math.max(
+      0,
+      maxY - padding
+    );
+
+
+  /*
+    Keep the button away
+    from the center.
+  */
+
+  const centerX =
+    window.innerWidth / 2;
+
+
+  const centerY =
+    window.innerHeight / 2;
+
+
+  if (
+    Math.abs(
+      randomX - centerX
+    ) < 120
+  ) {
+
+    randomX =
+      randomX < centerX
+        ? padding
+        : maxX;
+
+  }
+
+
+  if (
+    Math.abs(
+      randomY - centerY
+    ) < 80
+  ) {
+
+    randomY =
+      randomY < centerY
+        ? Math.min(
+            padding + 60,
+            maxY
+          )
+        : maxY;
+
+  }
 
 
   button.style.left =
     `${randomX}px`;
+
 
   button.style.top =
     `${randomY}px`;
 
 
   /*
-    Change the text on the special
-    No button from Question 3.
+    Question 3 changing
+    No-button text.
   */
 
   if (
-    button.classList.contains("changing-no")
+    button.classList.contains(
+      "changing-no"
+    )
   ) {
 
-    changeNoMessage(button);
+    changeNoMessage(
+      button
+    );
 
   }
-
 }
 
 
 /* =========================================
-   CHANGING "NO" MESSAGES
+   QUESTION 3 NO MESSAGES
 ========================================= */
 
 const noMessages = [
@@ -275,7 +512,8 @@ const noMessages = [
 ];
 
 
-let noMessageIndex = 0;
+let noMessageIndex =
+  0;
 
 
 function changeNoMessage(button) {
@@ -288,16 +526,11 @@ function changeNoMessage(button) {
 
 
   noMessageIndex++;
-
 }
 
 
 /* =========================================
-   EXTRA RUNAWAY EFFECT
-
-   Makes the button move when the cursor
-   gets CLOSE instead of requiring the
-   cursor to actually touch it.
+   RUN IF CURSOR GETS CLOSE
 ========================================= */
 
 document.addEventListener(
@@ -305,10 +538,14 @@ document.addEventListener(
   event => {
 
     const activeScreen =
-      document.querySelector(".screen.active");
+      document.querySelector(
+        ".screen.active"
+      );
 
 
-    if (!activeScreen) return;
+    if (!activeScreen) {
+      return;
+    }
 
 
     const activeNoButton =
@@ -317,27 +554,34 @@ document.addEventListener(
       );
 
 
-    if (!activeNoButton) return;
+    if (!activeNoButton) {
+      return;
+    }
 
 
     const rect =
-      activeNoButton.getBoundingClientRect();
+      activeNoButton
+        .getBoundingClientRect();
 
 
-    const buttonCenterX =
-      rect.left + rect.width / 2;
+    const centerX =
+      rect.left +
+      rect.width / 2;
 
 
-    const buttonCenterY =
-      rect.top + rect.height / 2;
+    const centerY =
+      rect.top +
+      rect.height / 2;
 
 
     const distanceX =
-      event.clientX - buttonCenterX;
+      event.clientX -
+      centerX;
 
 
     const distanceY =
-      event.clientY - buttonCenterY;
+      event.clientY -
+      centerY;
 
 
     const distance =
@@ -347,14 +591,13 @@ document.addEventListener(
       );
 
 
-    /*
-      If cursor gets within 90px,
-      RUN.
-    */
+    if (
+      distance < 90
+    ) {
 
-    if (distance < 90) {
-
-      moveNoButton(activeNoButton);
+      moveNoButton(
+        activeNoButton
+      );
 
     }
 
@@ -363,94 +606,68 @@ document.addEventListener(
 
 
 /* =========================================
-   RESET RUNAWAY BUTTONS
-
-   When changing pages, reset the buttons
-   so they don't stay floating somewhere
-   weird.
+   RESET NO BUTTONS
 ========================================= */
-
-function resetNoButtons() {
-
-  runawayButtons.forEach(button => {
-
-    button.style.position = "";
-
-    button.style.left = "";
-
-    button.style.top = "";
-
-  });
-
-}
-
-
-/*
-  Watch which screen becomes active
-  and reset buttons from previous screens.
-*/
-
-const screenObserver =
-  new MutationObserver(() => {
-
-    resetHiddenNoButtons();
-
-  });
-
-
-screens.forEach(screen => {
-
-  screenObserver.observe(
-    screen,
-    {
-      attributes: true,
-      attributeFilter: ["class"]
-    }
-  );
-
-});
-
 
 function resetHiddenNoButtons() {
 
-  runawayButtons.forEach(button => {
+  runawayButtons.forEach(
+    button => {
 
-    const parentScreen =
-      button.closest(".screen");
+      const parentScreen =
+        button.closest(
+          ".screen"
+        );
 
 
-    if (
-      parentScreen &&
-      !parentScreen.classList.contains("active")
-    ) {
+      if (
+        parentScreen &&
+        !parentScreen
+          .classList
+          .contains(
+            "active"
+          )
+      ) {
 
-      button.style.position = "";
+        button.style.position =
+          "";
 
-      button.style.left = "";
+        button.style.left =
+          "";
 
-      button.style.top = "";
+        button.style.top =
+          "";
+
+        button.style.zIndex =
+          "";
+
+      }
 
     }
-
-  });
-
+  );
 }
 
 
 /* =========================================
-   ENVELOPE OPENING
+   ENVELOPE / LETTER
 ========================================= */
 
 const envelope =
-  document.getElementById("envelope");
+  document.getElementById(
+    "envelope"
+  );
 
 
 const letterPaper =
-  document.getElementById("letterPaper");
+  document.getElementById(
+    "letterPaper"
+  );
 
 
 const continueToPhotos =
-  document.getElementById("continueToPhotos");
+  document.getElementById(
+    "continueToPhotos"
+  );
 
 
 if (envelope) {
@@ -466,88 +683,434 @@ if (envelope) {
 function openEnvelope() {
 
   /*
-    Don't allow repeated opening.
+    Don't reopen the envelope.
   */
 
   if (
-    envelope.classList.contains("open")
+    envelope.classList.contains(
+      "open"
+    )
   ) {
+
     return;
+
   }
 
 
-  envelope.classList.add("open");
+  envelope.classList.add(
+    "open"
+  );
 
 
   /*
-    Wait for the envelope animation
-    before revealing the letter.
+    Wait for the envelope
+    animation to finish.
   */
 
   setTimeout(() => {
 
-    letterPaper.classList.add("visible");
-
-
     /*
-      Reveal the continue button.
+      Reveal letter.
     */
 
-    continueToPhotos.classList.add(
-      "visible"
-    );
+    if (letterPaper) {
+
+      letterPaper.classList.add(
+        "visible"
+      );
+
+    }
 
 
     /*
-      Smoothly move down toward the letter.
+      Reveal the button that takes
+      her to the memories.
+    */
+
+    if (continueToPhotos) {
+
+      continueToPhotos.style.display =
+        "inline-block";
+
+    }
+
+
+    /*
+      Smoothly move down to
+      the letter.
     */
 
     setTimeout(() => {
 
-      letterPaper.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
+      if (letterPaper) {
 
-    }, 250);
+        letterPaper.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
 
+      }
 
-  }, 900);
+    }, 300);
 
+  }, 800);
 }
 
 
 /* =========================================
-   FUTURE PHOTO
+   POLAROID CAPTIONS
 ========================================= */
 
-function revealFuturePhoto(card) {
+/*
+  Desktop uses CSS :hover.
 
-  if (
-    card.classList.contains("revealed")
-  ) {
+  Phones don't have real hover,
+  so tapping a Polaroid toggles
+  photo-active instead.
+*/
+
+const polaroids =
+  document.querySelectorAll(
+    ".polaroid"
+  );
+
+
+const touchDevice =
+  window.matchMedia(
+    "(hover: none)"
+  );
+
+
+polaroids.forEach(
+  polaroid => {
+
+    polaroid.addEventListener(
+      "click",
+      event => {
+
+        /*
+          On a computer, CSS hover
+          handles the caption.
+        */
+
+        if (
+          !touchDevice.matches
+        ) {
+
+          return;
+
+        }
+
+
+        /*
+          Don't toggle the caption
+          when the user is trying
+          to use the video controls.
+        */
+
+        if (
+          event.target.closest(
+            ".sound-button"
+          ) ||
+          event.target.closest(
+            "video"
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        polaroid.classList.toggle(
+          "photo-active"
+        );
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================================
+   START MEMORY VIDEOS
+========================================= */
+
+function startMemoryVideos() {
+
+  const videos =
+    document.querySelectorAll(
+      ".memory-video"
+    );
+
+
+  videos.forEach(
+    video => {
+
+      /*
+        Autoplay requires muted
+        video on most browsers.
+      */
+
+      video.muted =
+        true;
+
+
+      const playPromise =
+        video.play();
+
+
+      if (
+        playPromise !== undefined
+      ) {
+
+        playPromise.catch(
+          () => {
+
+            /*
+              If autoplay is blocked,
+              the browser can start
+              playback after interaction.
+            */
+
+          }
+        );
+
+      }
+
+    }
+  );
+
+
+  resetSoundButtons();
+}
+
+
+/* =========================================
+   VIDEO SOUND
+========================================= */
+
+function toggleVideoSound(
+  event,
+  button
+) {
+
+  /*
+    Prevent Polaroid tap behavior.
+  */
+
+  event.stopPropagation();
+
+
+  const container =
+    button.closest(
+      ".video-container"
+    );
+
+
+  if (!container) {
     return;
   }
 
 
-  card.classList.add("revealed");
+  const video =
+    container.querySelector(
+      ".memory-video"
+    );
 
 
-  const mystery =
-    card.querySelector(".mystery-photo");
+  if (!video) {
+    return;
+  }
 
 
-  if (mystery) {
+  /*
+    SOUND OFF -> SOUND ON
+  */
+
+  if (video.muted) {
 
     /*
-      Replace the question mark
-      with a heart.
+      Mute every other video.
     */
 
-    mystery.textContent = "♡";
+    document
+      .querySelectorAll(
+        ".memory-video"
+      )
+      .forEach(
+        otherVideo => {
+
+          if (
+            otherVideo !== video
+          ) {
+
+            otherVideo.muted =
+              true;
+
+
+            const otherContainer =
+              otherVideo.closest(
+                ".video-container"
+              );
+
+
+            if (
+              otherContainer
+            ) {
+
+              const otherButton =
+                otherContainer
+                  .querySelector(
+                    ".sound-button"
+                  );
+
+
+              if (
+                otherButton
+              ) {
+
+                otherButton.textContent =
+                  "🔇 Tap for sound";
+
+
+                otherButton
+                  .classList
+                  .remove(
+                    "sound-on"
+                  );
+
+
+                otherButton.setAttribute(
+                  "aria-label",
+                  "Turn video sound on"
+                );
+
+              }
+
+            }
+
+          }
+
+        }
+      );
+
+
+    /*
+      Turn this video's
+      sound on.
+    */
+
+    video.muted =
+      false;
+
+
+    button.textContent =
+      "🔊 Sound on";
+
+
+    button.classList.add(
+      "sound-on"
+    );
+
+
+    button.setAttribute(
+      "aria-label",
+      "Turn video sound off"
+    );
+
+
+    video
+      .play()
+      .catch(
+        () => {}
+      );
 
   }
 
+
+  /*
+    SOUND ON -> SOUND OFF
+  */
+
+  else {
+
+    video.muted =
+      true;
+
+
+    button.textContent =
+      "🔇 Tap for sound";
+
+
+    button.classList.remove(
+      "sound-on"
+    );
+
+
+    button.setAttribute(
+      "aria-label",
+      "Turn video sound on"
+    );
+
+  }
+}
+
+
+/* =========================================
+   MUTE ALL VIDEOS
+========================================= */
+
+function muteAllMemoryVideos() {
+
+  document
+    .querySelectorAll(
+      ".memory-video"
+    )
+    .forEach(
+      video => {
+
+        video.muted =
+          true;
+
+      }
+    );
+
+
+  resetSoundButtons();
+}
+
+
+/* =========================================
+   RESET VIDEO SOUND BUTTONS
+========================================= */
+
+function resetSoundButtons() {
+
+  document
+    .querySelectorAll(
+      ".sound-button"
+    )
+    .forEach(
+      button => {
+
+        button.textContent =
+          "🔇 Tap for sound";
+
+
+        button.classList.remove(
+          "sound-on"
+        );
+
+
+        button.setAttribute(
+          "aria-label",
+          "Turn video sound on"
+        );
+
+      }
+    );
 }
 
 
@@ -558,40 +1121,124 @@ function revealFuturePhoto(card) {
 function finalSurprise() {
 
   const finalButton =
-    document.getElementById("finalButton");
+    document.getElementById(
+      "finalButton"
+    );
 
 
   const finalMessage =
-    document.getElementById("finalMessage");
+    document.getElementById(
+      "finalMessage"
+    );
+
+
+  const endingBackButton =
+    document.getElementById(
+      "endingBackButton"
+    );
 
 
   /*
-    Hide the button.
+    Hide the Back button.
   */
 
-  finalButton.style.opacity = "0";
+  if (
+    endingBackButton
+  ) {
 
-  finalButton.style.transform =
-    "scale(0.8)";
+    endingBackButton.style.opacity =
+      "0";
+
+
+    endingBackButton
+      .style
+      .pointerEvents =
+      "none";
+
+  }
+
+
+  /*
+    Fade final button.
+  */
+
+  if (
+    finalButton
+  ) {
+
+    finalButton.style.opacity =
+      "0";
+
+
+    finalButton.style.transform =
+      "scale(0.8)";
+
+
+    finalButton
+      .style
+      .pointerEvents =
+      "none";
+
+  }
 
 
   setTimeout(() => {
 
-    finalButton.style.display = "none";
+    if (
+      finalButton
+    ) {
 
-    finalMessage.classList.add(
-      "visible"
-    );
+      finalButton.style.display =
+        "none";
+
+    }
+
+
+    /*
+      Reveal final message.
+    */
+
+    if (
+      finalMessage
+    ) {
+
+      finalMessage.style.display =
+        "block";
+
+
+      requestAnimationFrame(
+        () => {
+
+          requestAnimationFrame(
+            () => {
+
+              finalMessage
+                .classList
+                .add(
+                  "visible"
+                );
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+
+    /*
+      Heart explosion.
+    */
 
     createHeartBurst();
 
   }, 500);
-
 }
 
 
 /* =========================================
-   HEART BURST
+   HEART / SPARKLE BURST
 ========================================= */
 
 function createHeartBurst() {
@@ -605,10 +1252,6 @@ function createHeartBurst() {
   ];
 
 
-  /*
-    Create multiple floating particles.
-  */
-
   for (
     let i = 0;
     i < 35;
@@ -616,7 +1259,9 @@ function createHeartBurst() {
   ) {
 
     const heart =
-      document.createElement("span");
+      document.createElement(
+        "span"
+      );
 
 
     heart.classList.add(
@@ -633,21 +1278,13 @@ function createHeartBurst() {
       ];
 
 
-    /*
-      Start around the center
-      of the screen.
-    */
-
     heart.style.left =
       "50vw";
+
 
     heart.style.top =
       "50vh";
 
-
-    /*
-      Random destination.
-    */
 
     const x =
       (Math.random() - 0.5) *
@@ -662,12 +1299,14 @@ function createHeartBurst() {
 
 
     const rotation =
-      Math.random() * 360;
+      Math.random() *
+      360;
 
 
     const size =
       12 +
-      Math.random() * 24;
+      Math.random() *
+      24;
 
 
     heart.style.fontSize =
@@ -697,77 +1336,68 @@ function createHeartBurst() {
     );
 
 
-    /*
-      Remove it afterward so the DOM
-      doesn't fill up with hearts.
-    */
+    setTimeout(
+      () => {
 
-    setTimeout(() => {
+        heart.remove();
 
-      heart.remove();
-
-    }, 2200);
+      },
+      2200
+    );
 
   }
-
 }
 
 
 /* =========================================
-   POLAROID MOBILE INTERACTION
-========================================= */
-
-const polaroids =
-  document.querySelectorAll(
-    ".polaroid:not(.future-photo)"
-  );
-
-
-polaroids.forEach(polaroid => {
-
-  polaroid.addEventListener(
-    "click",
-    () => {
-
-      /*
-        Remove active state from
-        other photos.
-      */
-
-      polaroids.forEach(other => {
-
-        if (other !== polaroid) {
-          other.classList.remove(
-            "photo-active"
-          );
-        }
-
-      });
-
-
-      /*
-        Toggle this photo.
-      */
-
-      polaroid.classList.toggle(
-        "photo-active"
-      );
-
-    }
-  );
-
-});
-
-
-/* =========================================
-   INITIALIZE WEBSITE
+   INITIALIZE
 ========================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
   () => {
 
-    updateProgress("cover");
+    /*
+      Initial progress.
+    */
+
+    updateProgress(
+      "cover"
+    );
+
+
+    /*
+      Initial browser history.
+    */
+
+    history.replaceState(
+      {
+        screen: "cover"
+      },
+      "",
+      "#cover"
+    );
+
+
+    /*
+      Ensure videos begin muted.
+    */
+
+    document
+      .querySelectorAll(
+        ".memory-video"
+      )
+      .forEach(
+        video => {
+
+          video.muted =
+            true;
+
+        }
+      );
+
+
+    resetSoundButtons();
 
   }
 );

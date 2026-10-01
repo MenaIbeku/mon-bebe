@@ -1,13 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>For Mon Bébé ♡</title>
 
+
   <!-- Google Fonts -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
@@ -15,42 +22,70 @@
     rel="stylesheet"
   >
 
+
   <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-  <!-- Background decorations -->
+
+  <!-- ===================================== -->
+  <!-- BACKGROUND DECORATIONS -->
+  <!-- ===================================== -->
+
   <div class="background-effects">
+
     <span>♡</span>
+
     <span>✦</span>
+
     <span>♡</span>
+
     <span>·</span>
+
     <span>✦</span>
+
     <span>♡</span>
+
   </div>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 1: COVER -->
-  <!-- ========================= -->
+
+  <!-- ===================================== -->
+  <!-- COVER -->
+  <!-- ===================================== -->
 
   <section class="screen active" id="cover">
 
     <div class="content">
 
-      <div class="tiny-heart">♡</div>
+      <div class="tiny-heart">
+        ♡
+      </div>
 
-      <p class="eyebrow">A little something for</p>
 
-      <h1>Mon Bébé</h1>
+      <p class="eyebrow">
+        A little something for
+      </p>
+
+
+      <h1>
+        Mon Bébé
+      </h1>
+
 
       <p class="subtitle">
         I made you a little something.
       </p>
 
-      <button class="main-button" onclick="nextScreen('question1')">
-        Begin →
+
+      <button
+        class="main-button"
+        onclick="nextScreen('question1')"
+      >
+        Take a sneak peak →
       </button>
 
     </div>
@@ -58,27 +93,34 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 2: FIRST QUESTION -->
-  <!-- ========================= -->
+
+  <!-- ===================================== -->
+  <!-- QUESTION 1 -->
+  <!-- ===================================== -->
 
   <section class="screen" id="question1">
 
     <div class="content">
 
-      <p class="step">01</p>
+      <p class="step">
+        01
+      </p>
+
 
       <h2>
         By this time, I would've already asked you to be my girlfriend...
       </h2>
 
+
       <p class="subtitle">
         So, what did you say?
       </p>
 
+
       <p class="hint">
         (Try clicking No 👀)
       </p>
+
 
       <div class="button-area">
 
@@ -89,6 +131,7 @@
           Yes ♡
         </button>
 
+
         <button class="no-button runaway">
           No
         </button>
@@ -100,23 +143,37 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 3: SECOND QUESTION -->
-  <!-- ========================= -->
+
+  <!-- ===================================== -->
+  <!-- QUESTION 2 -->
+  <!-- ===================================== -->
 
   <section class="screen" id="question2">
 
+    <button
+      class="back-button"
+      onclick="previousScreen()"
+    >
+      ← Back
+    </button>
+
+
     <div class="content">
 
-      <p class="step">02</p>
+      <p class="step">
+        02
+      </p>
+
 
       <h2>
         Wait...
       </h2>
 
+
       <p class="question">
         Are you <em>sure</em> you want to be my girlfriend?
       </p>
+
 
       <div class="button-area">
 
@@ -127,6 +184,7 @@
           Yes, I'm sure ♡
         </button>
 
+
         <button class="no-button runaway">
           No
         </button>
@@ -138,24 +196,38 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 4: THIRD QUESTION -->
-  <!-- ========================= -->
+
+  <!-- ===================================== -->
+  <!-- QUESTION 3 -->
+  <!-- ===================================== -->
 
   <section class="screen" id="question3">
 
+    <button
+      class="back-button"
+      onclick="previousScreen()"
+    >
+      ← Back
+    </button>
+
+
     <div class="content">
 
-      <p class="step">03</p>
+      <p class="step">
+        03
+      </p>
+
 
       <h2>
         Okay okay...
       </h2>
 
+
       <p class="question">
         But are you <strong>sure</strong> you want
         <em>me</em> to be your boyfriend, Mon Bébé?
       </p>
+
 
       <div class="button-area">
 
@@ -165,6 +237,7 @@
         >
           Absolutely ♡
         </button>
+
 
         <button
           class="no-button runaway changing-no"
@@ -179,41 +252,71 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 5: "CONTRACT" -->
-  <!-- ========================= -->
+
+  <!-- ===================================== -->
+  <!-- CONTRACT -->
+  <!-- ===================================== -->
 
   <section class="screen" id="contract">
 
+    <button
+      class="back-button"
+      onclick="previousScreen()"
+    >
+      ← Back
+    </button>
+
+
     <div class="content contract-content">
 
-      <p class="step">04</p>
+      <p class="step">
+        04
+      </p>
 
-      <h2>Final Confirmation.</h2>
+
+      <h2>
+        Final Confirmation.
+      </h2>
+
 
       <p class="question">
         This is a legally binding decision.*
       </p>
 
+
       <div class="contract-card">
 
-        <p>By accepting, you agree to:</p>
+        <p>
+          By accepting, you agree to:
+        </p>
+
 
         <div class="contract-items">
 
-          <p>♡ Random hugs</p>
+          <p>
+            ♡ Me annoying you
+          </p>
 
-          <p>♡ Me annoying you</p>
+          <p>
+            ♡ Me eating your food
+          </p>
 
-          <p>♡ Me stealing your food</p>
+          <p>
+            ♡ Me showing my love language (iykyk 👀)
+          </p>
 
-          <p>♡ Unlimited love</p>
+          <p>
+            ♡ Unlimited love
+          </p>
 
-          <p>♡ Being called Mon Bébé approximately 47 times a day</p>
+          <p>
+            ♡ Being claimed as Mon Bébé 
+          </p>
 
         </div>
 
       </div>
+
 
       <button
         class="main-button"
@@ -221,6 +324,7 @@
       >
         I Accept ♡
       </button>
+
 
       <p class="legal">
         *Not actually legally binding 😭
@@ -231,30 +335,47 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 6: REVEAL -->
-  <!-- ========================= -->
+
+  <!-- ===================================== -->
+  <!-- REVEAL -->
+  <!-- ===================================== -->
 
   <section class="screen" id="reveal">
 
+    <button
+      class="back-button"
+      onclick="previousScreen()"
+    >
+      ← Back
+    </button>
+
+
     <div class="content reveal-content">
 
-      <p class="slow-text">Well...</p>
+      <p class="slow-text">
+        Well...
+      </p>
+
 
       <h2>
         Since you want me to be your boyfriend
-        <span class="gold-text">so badddd...</span>
+
+        <span class="gold-text">
+          so badddd...
+        </span>
       </h2>
+
 
       <p class="subtitle">
         I guess there's something I have to give you.
       </p>
 
+
       <button
         class="main-button glow-button"
         onclick="nextScreen('letter')"
       >
-        Open to be Amazed ✨
+        Open Me ✨
       </button>
 
     </div>
@@ -262,24 +383,43 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 7: LETTER -->
-  <!-- ========================= -->
 
-  <section class="screen scroll-screen" id="letter">
+  <!-- ===================================== -->
+  <!-- LETTER -->
+  <!-- ===================================== -->
+
+  <section
+    class="screen scroll-screen"
+    id="letter"
+  >
+
+    <button
+      class="back-button"
+      onclick="previousScreen()"
+    >
+      ← Back
+    </button>
+
 
     <div class="letter-section">
 
-      <p class="eyebrow">Something for you</p>
+      <p class="eyebrow">
+        Something for you
+      </p>
+
 
       <h2 class="letter-title">
         A Letter for Mon Bébé
       </h2>
 
 
-      <!-- Envelope -->
 
-      <div class="envelope-wrapper" id="envelope">
+      <!-- ENVELOPE -->
+
+      <div
+        class="envelope-wrapper"
+        id="envelope"
+      >
 
         <div class="envelope">
 
@@ -291,6 +431,7 @@
 
         </div>
 
+
         <p class="open-hint">
           Click the envelope
         </p>
@@ -298,44 +439,68 @@
       </div>
 
 
-      <!-- Actual Letter -->
 
-      <div class="letter-paper" id="letterPaper">
+      <!-- LETTER PAPER -->
+
+      <div
+        class="letter-paper"
+        id="letterPaper"
+      >
 
         <div class="letter-decoration">
           ♡
         </div>
 
-        <h3>Mon Bébé,</h3>
+
+        <h3>
+          Mon Bébé,
+        </h3>
+
+
+
+        <!-- ================================= -->
+        <!-- PUT YOUR REAL LETTER BELOW -->
+        <!-- ================================= -->
 
         <p>
           This is where your letter will begin.
         </p>
 
-        <p>
-          When you're ready, we'll replace this with the
-          actual letter you write for her.
-        </p>
 
         <p>
-          It can be as long as you want. This section will
-          automatically grow with your letter.
+          When you're ready, replace this text
+          with the actual letter you want her to read.
         </p>
 
+
         <p>
-          And we'll make sure this feels like something
-          worth keeping.
+          You can make this as long as you want.
+          The letter will automatically grow with
+          your writing.
         </p>
+
+
+        <p>
+          And we'll make sure this feels like
+          something worth keeping.
+        </p>
+
+
 
         <div class="signature">
 
-          <p>Love,</p>
+          <p>
+            Love,
+          </p>
 
-          <span>Mena ♡</span>
+          <span>
+            Mena ♡
+          </span>
 
         </div>
 
       </div>
+
 
 
       <button
@@ -351,11 +516,23 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 8: MEMORIES -->
-  <!-- ========================= -->
 
-  <section class="screen scroll-screen" id="memories">
+  <!-- ===================================== -->
+  <!-- MEMORIES -->
+  <!-- ===================================== -->
+
+  <section
+    class="screen scroll-screen"
+    id="memories"
+  >
+
+    <button
+      class="back-button"
+      onclick="previousScreen()"
+    >
+      ← Back
+    </button>
+
 
     <div class="memories-container">
 
@@ -363,65 +540,105 @@
         A completely unbiased collection
       </p>
 
-      <h2>Exhibit A: Us.</h2>
+
+      <h2>
+        Exhibit A: Us.
+      </h2>
+
 
       <p class="subtitle">
-        A few of my favorite pieces of us.
+        A few of my favorite pieces of us. 
       </p>
 
+
+
+      <!-- ===================================== -->
+      <!-- 8 POLAROIDS: 4 PHOTOS + 4 VIDEOS -->
+      <!-- ===================================== -->
 
       <div class="photo-grid">
 
 
-        <!-- PHOTO 1 -->
+
+        <!-- ================================= -->
+        <!-- POLAROID 1 - PHOTO -->
+        <!-- ================================= -->
 
         <div class="polaroid rotate-left">
 
           <div class="photo-placeholder">
-            PHOTO 1
+
+            <img
+              src="assets/my_fave.jpeg"
+              alt="Us together"
+            >
+
           </div>
 
+
           <p class="photo-caption">
-            Proof that you actually like me.
+            My favorite photo of us ♡
           </p>
 
+
           <p class="hidden-caption">
-            I knew it.
+            Omo this your forehead bro.
           </p>
 
         </div>
 
 
-        <!-- PHOTO 2 -->
+
+        <!-- ================================= -->
+        <!-- POLAROID 2 - PHOTO -->
+        <!-- ================================= -->
 
         <div class="polaroid rotate-right">
 
           <div class="photo-placeholder">
-            PHOTO 2
+
+            <img
+              src="assets/your_fave.jpeg"
+              alt="Us together"
+            >
+
           </div>
 
+
           <p class="photo-caption">
-            You looked good here.
+            Your favorite photo of us ♡
           </p>
 
+
           <p class="hidden-caption">
-            I was also present.
+            I lowkey really like this one too.
           </p>
 
         </div>
 
 
-        <!-- PHOTO 3 -->
+
+        <!-- ================================= -->
+        <!-- POLAROID 3 - PHOTO -->
+        <!-- ================================= -->
 
         <div class="polaroid rotate-left">
 
           <div class="photo-placeholder">
-            PHOTO 3
+
+            <img
+              src="assets/best_moment.JPG"
+              alt="Us together"
+            >
+
           </div>
 
+
           <p class="photo-caption">
-            One of those moments I wish I could keep forever. ♡
+            One of the best moments with
+            you♡
           </p>
+
 
           <p class="hidden-caption">
             Core memory.
@@ -430,50 +647,249 @@
         </div>
 
 
-        <!-- PHOTO 4 -->
+
+        <!-- ================================= -->
+        <!-- POLAROID 4 - PHOTO -->
+        <!-- ================================= -->
 
         <div class="polaroid rotate-right">
 
           <div class="photo-placeholder">
-            PHOTO 4
+
+            <img
+              src="assets/disturbing.JPG"
+              alt="Us together"
+            >
+
           </div>
 
+
           <p class="photo-caption">
-            My pretty girl ♡
+            Always disturbing me
           </p>
+
 
           <p class="hidden-caption">
-            Yes, I'm aware I got lucky.
+            As usual, but I like
+            it that way
           </p>
 
         </div>
 
 
-        <!-- SPECIAL "FUTURE" PHOTO -->
 
-        <div
-          class="polaroid future-photo"
-          onclick="revealFuturePhoto(this)"
-        >
+        <!-- ================================= -->
+        <!-- POLAROID 5 - VIDEO -->
+        <!-- ================================= -->
 
-          <div class="photo-placeholder mystery-photo">
-            ?
+        <div class="polaroid rotate-left video-polaroid">
+
+          <div class="photo-placeholder video-container">
+
+            <video
+              class="memory-video"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="metadata"
+            >
+
+              <source
+                src="assets/us_wild.mov"
+                type="video/mp4"
+              >
+
+              Your browser does not support video.
+
+            </video>
+
+
+            <button
+              class="sound-button"
+              onclick="toggleVideoSound(event, this)"
+              aria-label="Turn video sound on"
+            >
+              🔇 Tap for sound
+            </button>
+
           </div>
 
+
           <p class="photo-caption">
-            My favorite picture of us
+            Us in the wild ♡
           </p>
 
-          <p class="future-message">
-            We haven't taken it yet. ♡
-            <br>
-            <span>We've got plenty of time.</span>
+
+          <p class="hidden-caption">
+            I really enjoyed vibing with you
+            on this day.
           </p>
 
         </div>
+
+
+
+        <!-- ================================= -->
+        <!-- POLAROID 6 - VIDEO -->
+        <!-- ================================= -->
+
+        <div class="polaroid rotate-right video-polaroid">
+
+          <div class="photo-placeholder video-container">
+
+            <video
+              class="memory-video"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="metadata"
+            >
+
+              <source
+                src="assets/how_started.mov"
+                type="video/mp4"
+              >
+
+              Your browser does not support video.
+
+            </video>
+
+
+            <button
+              class="sound-button"
+              onclick="toggleVideoSound(event, this)"
+              aria-label="Turn video sound on"
+            >
+              🔇 Tap for sound
+            </button>
+
+          </div>
+
+
+          <p class="photo-caption">
+            How it all started♡
+          </p>
+
+
+          <p class="hidden-caption">
+            You definitely don't remember this day
+            at all.
+          </p>
+
+        </div>
+
+
+
+        <!-- ================================= -->
+        <!-- POLAROID 7 - VIDEO -->
+        <!-- ================================= -->
+
+        <div class="polaroid rotate-left video-polaroid">
+
+          <div class="photo-placeholder video-container">
+
+            <video
+              class="memory-video"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="metadata"
+            >
+
+              <source
+                src="assets/first_outing.mov"
+                type="video/mp4"
+              >
+
+              Your browser does not support video.
+
+            </video>
+
+
+            <button
+              class="sound-button"
+              onclick="toggleVideoSound(event, this)"
+              aria-label="Turn video sound on"
+            >
+              🔇 Tap for sound
+            </button>
+
+          </div>
+
+
+          <p class="photo-caption">
+            Our first "date"
+          </p>
+
+
+          <p class="hidden-caption">
+            Bro was just trying to be like
+            me so bad
+          </p>
+
+        </div>
+
+
+
+        <!-- ================================= -->
+        <!-- POLAROID 8 - VIDEO -->
+        <!-- ================================= -->
+
+        <div class="polaroid rotate-right video-polaroid">
+
+          <div class="photo-placeholder video-container">
+
+            <video
+              class="memory-video"
+              autoplay
+              loop
+              muted
+              playsinline
+              preload="metadata"
+            >
+
+              <source
+                src="assets/play_much.mov"
+                type="video/mp4"
+              >
+
+              Your browser does not support video.
+
+            </video>
+
+
+            <button
+              class="sound-button"
+              onclick="toggleVideoSound(event, this)"
+              aria-label="Turn video sound on"
+            >
+              🔇 Tap for sound
+            </button>
+
+          </div>
+
+
+          <p class="photo-caption">
+            First Tiktok together ♡
+          </p>
+
+
+          <p class="hidden-caption">
+            Can't believe you doubted
+            my ability to carry you.
+          </p>
+
+        </div>
+
 
       </div>
 
+
+
+      <!-- CONTINUE -->
 
       <button
         class="main-button"
@@ -487,11 +903,21 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- SCREEN 9: ENDING -->
-  <!-- ========================= -->
+
+  <!-- ===================================== -->
+  <!-- ENDING -->
+  <!-- ===================================== -->
 
   <section class="screen" id="ending">
+
+    <button
+      class="back-button"
+      id="endingBackButton"
+      onclick="previousScreen()"
+    >
+      ← Back
+    </button>
+
 
     <div class="content ending-content">
 
@@ -499,26 +925,44 @@
         And somehow...
       </p>
 
+
       <h2>
         this is only the beginning.
       </h2>
+
+
 
       <div class="ending-heart">
         ♡
       </div>
 
+
+
       <p class="subtitle">
         So I guess it's official.
       </p>
 
+
+
       <h1 class="you-and-me">
-        You + Me
+        Mena & Maelis
       </h1>
 
-      <!-- Change this to the real date later -->
+
+
+      <!-- ================================= -->
+      <!-- PUT YOUR RELATIONSHIP DATE HERE -->
+      <!-- ================================= -->
+
       <p class="relationship-date">
-        September __, 2026
+        October 3rd, 2026 
       </p>
+
+      <p class="sub-joke">
+        (now you have our official anniversary date)
+      </p>
+
+
 
       <button
         class="main-button"
@@ -529,10 +973,16 @@
       </button>
 
 
-      <div class="final-message" id="finalMessage">
+
+      <!-- FINAL MESSAGE -->
+
+      <div
+        class="final-message"
+        id="finalMessage"
+      >
 
         <h1>
-          I love you, Mon Bébé.
+          I love you Bébé.
         </h1>
 
         <p>
@@ -540,6 +990,7 @@
         </p>
 
       </div>
+
 
 
       <p class="made-with-love">
@@ -551,18 +1002,46 @@
   </section>
 
 
-  <!-- Progress -->
 
-  <div class="progress" id="progress">
-    <span class="progress-dot active-dot">♡</span>
-    <span class="progress-dot">○</span>
-    <span class="progress-dot">○</span>
-    <span class="progress-dot">○</span>
-    <span class="progress-dot">○</span>
+  <!-- ===================================== -->
+  <!-- PROGRESS INDICATOR -->
+  <!-- ===================================== -->
+
+  <div
+    class="progress"
+    id="progress"
+  >
+
+    <span class="progress-dot active-dot">
+      ♡
+    </span>
+
+    <span class="progress-dot">
+      ○
+    </span>
+
+    <span class="progress-dot">
+      ○
+    </span>
+
+    <span class="progress-dot">
+      ○
+    </span>
+
+    <span class="progress-dot">
+      ○
+    </span>
+
   </div>
 
+
+
+  <!-- ===================================== -->
+  <!-- JAVASCRIPT -->
+  <!-- ===================================== -->
 
   <script src="script.js"></script>
 
 </body>
+
 </html>
